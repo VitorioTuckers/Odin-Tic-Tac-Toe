@@ -14,7 +14,7 @@ const Gameboard = (() => {
     ['', '', ''],
   ];
 
-  const toc = playerFactory('Toc', '#');
+  const toc = playerFactory('Toc', 'O');
 
   const restartGame = () => {
     gameBoard = [
@@ -54,7 +54,6 @@ const Gameboard = (() => {
   };
 
   const gameFlow = (player1, player2) => {
-    console.log(player1, player2);
     updateDisplay();
     if (checkWin(player1.markStyle)) {
       setTimeout(() => {
@@ -62,8 +61,8 @@ const Gameboard = (() => {
         restartGame();
       }, 1000);
     } else if (checkWin(player2.markStyle)) {
-      alert(`Player ${player2.nickname} wins`);
       setTimeout(() => {
+        alert(`Player ${player2.nickname} wins`);
         restartGame();
       }, 1000);
     }
@@ -99,6 +98,6 @@ gameBoardElement.addEventListener('click', e => {
   clickTarget = e.target.dataset.position.split('');
   let row = Number(clickTarget[0]);
   let collumn = Number(clickTarget[1]);
-  const tuco = playerFactory('Tuco', '$');
+  const tuco = playerFactory('Tuco', 'X');
   Gameboard.markSquare(row, collumn, tuco);
 });
