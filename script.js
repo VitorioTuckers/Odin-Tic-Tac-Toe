@@ -1,12 +1,20 @@
 const gameBoardElement = document.querySelector('#gameboard');
 const clearButton = document.querySelector('#clear');
 
+const playerFactory = (nickname, markStyle) => {
+  return { nickname, markStyle };
+};
+
 const Gameboard = (() => {
+  let turn = 'player1';
+
   let gameBoard = [
     ['', '', ''],
     ['', '', ''],
     ['', '', ''],
   ];
+
+  const toc = playerFactory('Toc', '#');
 
   const restartGame = () => {
     gameBoard = [
@@ -45,19 +53,21 @@ const Gameboard = (() => {
     return false;
   };
 
-  const gameFlow = () => {
+  const gameFlow = (player1, player2) => {
+    console.log(player1, player2);
     updateDisplay();
-    if (checkWin('X')) {
+    if (checkWin(player1.markStyle)) {
       setTimeout(() => {
-        alert('Player X wins');
+        alert(`Player ${player1.nickname} wins`);
         restartGame();
       }, 1000);
-    } else if (checkWin('O')) {
+    } else if (checkWin(player2.markStyle)) {
+      alert(`Player ${player2.nickname} wins`);
       setTimeout(() => {
-        alert('Player O wins');
         restartGame();
       }, 1000);
     }
+    turn === 'player1' ? (turn = 'player2') : (turn = 'player1');
   };
 
   const updateDisplay = () => {
@@ -71,9 +81,13 @@ const Gameboard = (() => {
     }
   };
 
-  const markSquare = (row, collumn) => {
-    gameBoard[row][collumn] = 'X';
-    gameFlow();
+  const markSquare = (row, collumn, player1, player2 = toc) => {
+    if (turn === 'player1') {
+      gameBoard[row][collumn] = player1.markStyle;
+    } else {
+      gameBoard[row][collumn] = player2.markStyle;
+    }
+    gameFlow(player1, player2);
   };
 
   return {
@@ -85,5 +99,6 @@ gameBoardElement.addEventListener('click', e => {
   clickTarget = e.target.dataset.position.split('');
   let row = Number(clickTarget[0]);
   let collumn = Number(clickTarget[1]);
-  Gameboard.markSquare(row, collumn);
+  const tuco = playerFactory('Tuco', '$');
+  Gameboard.markSquare(row, collumn, tuco);
 });
