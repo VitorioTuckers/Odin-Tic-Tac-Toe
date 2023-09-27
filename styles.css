@@ -29,3 +29,7 @@ div {
   place-items: center;
   font-size: 7rem;
 }
+
+.proxy {
+  pointer-events: none;
+}

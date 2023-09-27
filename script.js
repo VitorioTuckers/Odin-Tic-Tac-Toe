@@ -23,6 +23,7 @@ const Gameboard = (() => {
       ['', '', ''],
     ];
     updateDisplay();
+    gameBoardElement.classList.remove('proxy');
   };
 
   const checkWin = player => {
@@ -56,11 +57,13 @@ const Gameboard = (() => {
   const gameFlow = (player1, player2) => {
     updateDisplay();
     if (checkWin(player1.markStyle)) {
+      gameBoardElement.classList.add('proxy');
       setTimeout(() => {
         alert(`Player ${player1.nickname} wins`);
         restartGame();
       }, 1000);
     } else if (checkWin(player2.markStyle)) {
+      gameBoardElement.classList.add('proxy');
       setTimeout(() => {
         alert(`Player ${player2.nickname} wins`);
         restartGame();
@@ -81,12 +84,14 @@ const Gameboard = (() => {
   };
 
   const markSquare = (row, collumn, player1, player2 = toc) => {
-    if (turn === 'player1') {
-      gameBoard[row][collumn] = player1.markStyle;
-    } else {
-      gameBoard[row][collumn] = player2.markStyle;
+    if (gameBoard[row][collumn].length != 1) {
+      if (turn === 'player1') {
+        gameBoard[row][collumn] = player1.markStyle;
+      } else {
+        gameBoard[row][collumn] = player2.markStyle;
+      }
+      gameFlow(player1, player2);
     }
-    gameFlow(player1, player2);
   };
 
   return {
